@@ -1,13 +1,5 @@
 const properties = require('./json/properties.json');
-const {Pool} = require('pg');
-const pool = new Pool(
-  {user: 'vagrant',
-  password: '123',
-  host: 'localhost',
-  database: 'lightbnb'}
-  );
-  const users = require('./json/users.json');
-/// Users
+  const db = require('./db/index');
 
 /**
  * Get a single user from the database given their email.
@@ -15,7 +7,7 @@ const pool = new Pool(
  * @return {Promise<{}>} A promise to the user.
  */
 const getUserWithEmail = function(email) {
-  return pool
+  return db
   .query(
     'SELECT * from users where email=$1',
     [email.toLowerCase()])
@@ -35,7 +27,7 @@ exports.getUserWithEmail = getUserWithEmail;
  * @return {Promise<{}>} A promise to the user.
  */
 const getUserWithId = function(id) {
-  return pool
+  return db
   .query(
     'SELECT * from users where id=$1',
     [id])
@@ -56,7 +48,7 @@ exports.getUserWithId = getUserWithId;
  * @return {Promise<{}>} A promise to the user.
  */
 const addUser =  function(user) {
-  return pool
+  return db
   .query(
     `INSERT INTO users (name, email, password)
     VALUES ($1, $2, $3) RETURNING *`,
@@ -78,7 +70,7 @@ exports.addUser = addUser;
  * @return {Promise<[{}]>} A promise to the reservations.
  */
 const getAllReservations = function(guest_id, limit = 10) {
-  return pool
+  return db
   .query(
     'SELECT * from reservations join properties on properties.id=property_id where guest_id=$1 limit 10',
     [guest_id])
@@ -153,7 +145,7 @@ const getAllProperties = function(options, limit = 10) {
   queryString += `
   LIMIT $${queryParam.length};
   `;
-  return pool
+  return db
   .query(
     queryString,
     queryParam)
@@ -175,7 +167,7 @@ exports.getAllProperties = getAllProperties;
  * @return {Promise<{}>} A promise to the property.
  */
 const addProperty = function(property) {
-  return pool
+  return db
   .query(
     `INSERT INTO properties (owner_id, title, description, thumbnail_photo_url, cover_photo_url, cost_per_night, street, city, province,
       post_code, country, parking_spaces, number_of_bathrooms, number_of_bedrooms)
