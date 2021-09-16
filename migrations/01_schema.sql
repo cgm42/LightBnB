@@ -22,7 +22,6 @@ CREATE TABLE properties (
   parking_spaces INTEGER  NOT NULL DEFAULT 0,
   number_of_bathrooms INTEGER  NOT NULL DEFAULT 0,
   number_of_bedrooms INTEGER  NOT NULL DEFAULT 0,
-
   country VARCHAR(255) NOT NULL,
   street VARCHAR(255) NOT NULL,
   city VARCHAR(255) NOT NULL,
