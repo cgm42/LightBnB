@@ -9,6 +9,7 @@ $(() => {
     $propertyListings.detach();
     $searchPropertyForm.detach();
     $logInForm.detach();
+    $reservationForm.detach();
     $signUpForm.detach();
 
     switch (item) {
@@ -23,6 +24,9 @@ $(() => {
         break;
       case 'logIn':
         $logInForm.appendTo($main);
+        break;
+      case 'reserve':
+        $reservationForm.appendTo($main);
         break;
       case 'signUp':
         $signUpForm.appendTo($main);

@@ -183,5 +183,21 @@ const addProperty = function(property) {
   });
 }
 
-
 exports.addProperty = addProperty;
+
+const addReservation = function(start_date, end_date, id, user_id) {
+  return db
+  .query(
+    `INSERT INTO reservations (start_date, end_date, property_id, guest_id)
+    VALUES ($1, $2, $3, $4) RETURNING *`,
+    [start_date, end_date, id, user_id])
+  .then((result) => {
+    return result.rows[0];
+  })
+  .catch((err) => {
+    console.log('error => ', err);
+  });
+}
+
+exports.addReservation = addReservation;
+

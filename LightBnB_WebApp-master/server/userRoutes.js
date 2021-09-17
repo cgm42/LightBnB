@@ -47,6 +47,29 @@ module.exports = function(router, database) {
       })
       .catch(e => res.send(e));
   });
+
+  const reserve =  function(start_date, end_date, id, user_id) {
+    return database.addReservation(start_date, end_date, id, user_id)
+    .then(reservation => {
+      return reservation;
+    });
+  }
+  exports.reserve = reserve;
+
+  router.post('/reserve', (req, res) => {
+    const {start_date, end_date, id} = req.body;
+    console.log('req.session.userId :>> ', req.session.userId);
+    const user_id = req.session.userId;
+    reserve(start_date, end_date, id, user_id)
+      .then(reservation => {
+        // if (!user) {
+        //   res.send({error: "error"});
+        //   return;
+        // }
+        res.send({reservation: {start_date, end_date, id, user_id}});
+      })
+      .catch(e => res.send(e));
+  });
   
   router.post('/logout', (req, res) => {
     req.session.userId = null;

@@ -20,6 +20,14 @@ function logIn(data) {
   });
 }
 
+function reservation(data) {
+  return $.ajax({
+    method: "POST",
+    url: "/users/reserve",
+    data
+  });
+}
+
 function signUp(data) {
   return $.ajax({
     method: "POST",
